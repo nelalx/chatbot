@@ -162,8 +162,6 @@ app.post('/',(req, res , next) => {
                         packPref.setSuggestedOffer('USD 90 gives you 100 minutes free a month along with 500 MB data and 60 sms free');
                         break;
                     case 'roaming' :
-                        console.log("Reached here");
-                        console.log(packPref.getRoamedState().roamstate);
                         switch (packPref.getRoamedState().roamstate) {
                             case 'europe' :
                                 bot.sendText('Here is a lower pack for Europe : USD 700 plan, which gives you incoming calls at 10 cents/minute and free texts, and outgoing calls at 70 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
@@ -196,4 +194,4 @@ app.post('/',(req, res , next) => {
     res.send(200)
 })
 
-app.listen(8080)
+app.listen(process.env.PORT || 8080)

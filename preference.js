@@ -32,3 +32,15 @@ exports.getSubscriberNo = function () {
         subscriberNo : subscriberNo
     }
 }
+
+var roamstate;
+
+exports.setRoamedState =  function (state) {
+        roamstate = state
+}
+
+exports.getRoamedState = function () {
+       return {
+           roamstate : roamstate
+       }
+}

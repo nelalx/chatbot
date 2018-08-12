@@ -18,6 +18,7 @@ app.use(Restify.plugins.bodyParser())
 app.get('/',(req,res,next) => {
     if (req.query['hub.mode'] == 'subscribe' && req.query['hub.verify_token'] == token) {
         res.end(req.query['hub.challenge'])
+        console.log(token);
     }
     else {
         next();
@@ -76,18 +77,22 @@ app.post('/',(req, res , next) => {
                 }
             break;
             case 'roamdesteurope' :
+                packPref.setRoamedState('europe');
                 bot.sendText('The top roaming pack for Europe is the USD 1000 plan, which gives you free incoming calls and texts, and outgoing calls at 50 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
                 packPref.setSuggestedOffer('The top roaming pack for Europe is the USD 1000 plan, which gives you free incoming calls and texts, and outgoing calls at 50 cents a minute');
                 break;
             case 'roamdestamerica' :
+                packPref.setRoamedState('america');
                 bot.sendText('The top roaming pack for Americas is the USD 1200 plan, which gives you free incoming calls and texts, and outgoing calls at 60 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
                 packPref.setSuggestedOffer(' USD 1200 plan, which gives you free incoming calls and texts, and outgoing calls at 60 cents a minute');
                 break;
             case 'roamdestasia' :
+                packPref.setRoamedState('asia');
                 bot.sendText('The top roaming pack for Asia is the USD 1500 plan, which gives you free incoming calls and texts, and outgoing calls at 40 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
                 packPref.setSuggestedOffer(' USD 1500 plan, which gives you free incoming calls and texts, and outgoing calls at 40 cents a minute');
                 break;
             case 'roamdestafrica' :
+                packPref.setRoamedState('africa');
                 bot.sendText('The top roaming pack for Africa is the USD 2000 plan, which gives you free incoming calls and texts, and outgoing calls at 80 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
                 packPref.setSuggestedOffer(' USD 2000 plan, which gives you free incoming calls and texts, and outgoing calls at 80 cents a minute');
                 break;
@@ -134,22 +139,7 @@ app.post('/',(req, res , next) => {
                 }
             break;
 
-            // case 'roamdesteurope' :
-            //     bot.sendText('The top roaming pack for Europe is the USD 1000 plan, which gives you free incoming calls and texts, and outgoing calls at 50 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
-            //     packPref.setSuggestedOffer('The top roaming pack for Europe is the USD 1000 plan, which gives you free incoming calls and texts, and outgoing calls at 50 cents a minute');
-            //     break;
-            // case 'roamdestamerica' :
-            //     bot.sendText('The top roaming pack for Americas is the USD 1200 plan, which gives you free incoming calls and texts, and outgoing calls at 60 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
-            //     packPref.setSuggestedOffer('The top roaming pack for Americas is the USD 1200 plan, which gives you free incoming calls and texts, and outgoing calls at 60 cents a minute');
-            //     break;
-            // case 'roamdestasia' :
-            //     bot.sendText('The top roaming pack for Asia is the USD 1500 plan, which gives you free incoming calls and texts, and outgoing calls at 40 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
-            //     packPref.setSuggestedOffer('The top roaming pack for Asia is the USD 1500 plan, which gives you free incoming calls and texts, and outgoing calls at 40 cents a minute');
-            //     break;
-            // case 'roamdestafrica' :
-            //     bot.sendText('The top roaming pack for Africa is the USD 2000 plan, which gives you free incoming calls and texts, and outgoing calls at 80 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
-            //     packPref.setSuggestedOffer('The top roaming pack for Africa is the USD 2000 plan, which gives you free incoming calls and texts, and outgoing calls at 80 cents a minute');
-            //     break;
+
 
             case 'packactivation':
                 bot.sendText('For your number  '+ packPref.getSubscriberNo().subscriberNo + " " + 'I am activating this pack' + "  " + packPref.getSuggestedOffer().suggestedOffer, messageObj.id)
@@ -160,21 +150,45 @@ app.post('/',(req, res , next) => {
             case 'lowdenomination' :
                 switch (packPref.getPreference().preference) {
                     case 'voice' :
-                        bot.sendText(' Here is a lower pack : USD 100 gives you 400 minutes free a month along with 1 GB data. To activate this pack on your line, please type activate', messageObj.id)
-                        packPref.setSuggestedOffer('USD 100 gives you 400 minutes free a month along with 1 GB data');
+                        bot.sendText(' Here is a lower pack : USD 80 gives you 200 minutes free a month along with 500 MB data. To activate this pack on your line, please type activate', messageObj.id)
+                        packPref.setSuggestedOffer('USD 80 gives you 200 minutes free a month along with 500 MB data');
                         break;
                     case 'data' :
-                        bot.sendText(' Here is a lower pack : USD 102 gives you 200 minutes free a month along with 3 GB data. To activate this pack on your line, please type activate', messageObj.id)
-                        packPref.setSuggestedOffer('USD 102 gives you 200 minutes free a month along with 3 GB data');
+                        bot.sendText(' Here is a lower pack : USD 85 gives you 100 minutes free a month along with 1 GB data. To activate this pack on your line, please type activate', messageObj.id)
+                        packPref.setSuggestedOffer('USD 85 gives you 100 minutes free a month along with 1 GB data');
                         break;
                     case 'sms' :
-                        bot.sendText(' Here is a lower pack : USD 105 gives you 200 minutes free a month along with 1 GB data and 100 sms free. To activate this pack on your line, please type activate', messageObj.id)
-                        packPref.setSuggestedOffer('USD 105 gives you 200 minutes free a month along with 1 GB data and 100 sms free');
+                        bot.sendText(' Here is a lower pack : USD 90 gives you 100 minutes free a month along with 500 MB data and 60 sms free. To activate this pack on your line, please type activate', messageObj.id)
+                        packPref.setSuggestedOffer('USD 90 gives you 100 minutes free a month along with 500 MB data and 60 sms free');
                         break;
+                    case 'roaming' :
+                        console.log("Reached here");
+                        console.log(packPref.getRoamedState().roamstate);
+                        switch (packPref.getRoamedState().roamstate) {
+                            case 'europe' :
+                                bot.sendText('Here is a lower pack for Europe : USD 700 plan, which gives you incoming calls at 10 cents/minute and free texts, and outgoing calls at 70 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
+                                packPref.setSuggestedOffer('USD 700 plan, which gives you incoming calls at 10 cents/minute and free texts, and outgoing calls at 70 cents a minute');
+                                break;
+                            case 'america' :
+                                bot.sendText('Here is a lower pack for Americas :  USD 1000 plan, which gives you free incoming texts and calls at 20 cents/minute, and outgoing calls at 80 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
+                                packPref.setSuggestedOffer(' USD 1000 plan, which gives you free incoming texts and calls at 20 cents/minute, and outgoing calls at 80 cents a minute.');
+                                break;
+                            case 'asia' :
+                                bot.sendText('Here is a lower Asian roamaing pack : USD 1300 plan, which gives you free incoming texts and calls at 35 cents/minute , and outgoing calls at 90 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
+                                packPref.setSuggestedOffer(' USD 1300 plan, which gives you free incoming texts and calls at 35 cents/minute , and outgoing calls at 90 cents a minute');
+                                break;
+                            case 'africa' :
+                                bot.sendText('Here is a lower plan for Africa :  USD 1600 plan, which gives you free incoming texts, incoming calls at 40 cents/minute , and outgoing calls at 95 cents a minute. To activate this pack on your line, please type activate', messageObj.id)
+                                packPref.setSuggestedOffer(' USD 1600 plan, which gives you free incoming texts, incoming calls at 40 cents/minute , and outgoing calls at 95 cents a minute.');
+                                break;
+                        }
                 }
                 break;
+            case 'byemessage' :
+                bot.sendText('Nice interacting with you. Have a great day!', messageObj.id)
+                break;
             default :
-                bot.sendText('You need to train me on that', messageObj.id)
+                bot.sendText('I am sorry , I didnt quite understand your question', messageObj.id)
 
         }
 
@@ -182,4 +196,4 @@ app.post('/',(req, res , next) => {
     res.send(200)
 })
 
-app.listen(process.env.PORT || 8080)
+app.listen(8080)
